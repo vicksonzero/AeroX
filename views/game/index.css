@@ -1,0 +1,256 @@
+
+
+
+body{
+	width:100%;
+	height:100%;
+	margin:0;
+	overflow:hidden;
+}
+
+
+/*  the board  */
+#board{
+	position:absolute;
+	background: white;
+	left:0px;
+	top:0px;
+	background: url("img/board.png");
+	background-size:100%;
+	background-repeat: no-repeat;
+}
+
+#boxes{
+	position:absolute;
+	width:100%;
+	height:100%;
+}
+
+
+.places{
+	position:absolute;
+	width:4.5%;
+	height:4.5%;
+	pointer-events: none;
+}
+
+.color-R{
+	background-image: url("img/R.png");
+	background-repeat: no-repeat;
+	background-size: 100%;
+}
+
+.color-Y{
+	background-image: url("img/Y.png");
+	background-repeat: no-repeat;
+	background-size: 100%;
+}
+
+.color-G{
+	background-image: url("img/G.png");
+	background-repeat: no-repeat;
+	background-size: 100%;
+}
+
+.color-B{
+	background-image: url("img/B.png");
+	background-repeat: no-repeat;
+	background-size: 100%;
+}
+
+
+/*   overlay   */
+
+#overlay{
+	position:absolute;
+	left:0;
+	top:0;
+	display:none;
+	background-color: rgba(0,0,0,0.5);
+}
+
+#dice-container{
+	position:absolute;
+	width:100%;
+	height:30%;
+	top:20%;
+}
+#dice{
+	margin:0 auto;
+	background-size:auto 100%;
+	background-position: center;
+	background-repeat: no-repeat;
+	height:100%;
+}
+
+#overlay-msg{
+	position:absolute;
+	bottom:40%;
+	width:100%;
+	height:60%;
+	background-size:100% auto;
+	background-position: center bottom;
+	background-repeat: no-repeat;
+}
+
+
+
+
+.plane{
+	position:absolute;
+	width:4.5%;
+	height:4.5%;
+	
+	background-image: url("img/W.png");
+	background-repeat: no-repeat;
+	background-size: 100%;
+}
+
+.planeColor-R{
+	background-image: url("img/planeR.png");
+
+}
+.planeColor-Y{
+	background-image: url("img/planeY.png");
+
+}
+.planeColor-G{
+	background-image: url("img/planeG.png");
+
+}
+.planeColor-B{
+	background-image: url("img/planeB.png");
+	
+}
+
+.popupMsg{
+	position:absolute;
+	width:100%;
+	height:90%;
+	left: 0%;
+	top: 30%;
+	z-index: 100;
+	pointer-events: none;
+}
+
+#popupYourTurn{
+	background-image: url("img/yourTurn.png");
+	background-repeat: no-repeat;
+	background-size: 100%;
+}
+
+#popupDoubleSix{
+	background-image: url("img/doubleSix.png");
+	background-repeat: no-repeat;
+	background-size: 100%;
+}
+
+#popupRollAgain{
+	background-image: url("img/rollAgain.png");
+	background-repeat: no-repeat;
+	background-size: 100%;
+}
+
+#popupTripleSix{
+	background-image: url("img/tripleSix.png");
+	background-repeat: no-repeat;
+	background-size: 100%;
+}
+
+.popupWindow{
+	position:absolute;
+	width:100%;
+	height:100%;
+	left: 0%;
+	top: 0%;
+	background: rgba(0,0,0,0.4);
+	z-index: 20;
+}
+
+#popupWindowTitle{
+	position:absolute;
+	width:100%;
+	height:20%;
+	left: 0%;
+	top: 0%;
+	background-image: url("");
+	background-repeat: no-repeat;
+	background-size: 100%;
+}
+
+#popupWindowContent{
+	position:absolute;
+	width:100%;
+	height:60%;
+	left: 0%;
+	top: 20%;
+	background-image: url("");
+	background-repeat: no-repeat;
+	background-size: 100%;
+}
+
+#popupWindowBottom{
+	position:absolute;
+	width:100%;
+	height:20%;
+	left: 0%;
+	top: 80%;
+	background-image: url("");
+	background-repeat: no-repeat;
+	background-size: 100%;
+}
+
+.dice{
+	position:absolute;
+	width:30%;
+	height:100%;
+	left: 35%;
+	top: 35%;
+	z-index: 21;
+	
+	background-image: url("img/dice0.png");
+	background-repeat: no-repeat;
+	background-size: 100%;
+}
+
+.btn_plane{
+	position:absolute;
+	width:20%;
+	height:90%;
+	left: 4%;
+	top: 10%;
+	z-index:20;
+	background-image: url("img/W.png");
+	background-repeat: no-repeat;
+	background-size: 100%;
+}
+
+#btn_plane0{
+	left: 4%;
+	top: 20%;
+}
+#btn_plane1{
+	left: 28%;
+	top: 20%;
+}
+
+#btn_plane2{
+	left: 52%;
+	top: 20%;
+}
+
+#btn_plane3{
+	left: 76%;
+	top: 20%;
+}
+
+
+
+
+
+
+#controlPanelTemp{
+	position:absolute;
+	left: 0;
+	top: 500px;
+}

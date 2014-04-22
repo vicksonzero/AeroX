@@ -1,0 +1,265 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+	<meta name="viewport" content="width=device-width, height=device-height, initial-scale=1, user-scalable=1" />
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+	<script src="game.js" type="text/javascript" charset="utf-8" ></script>
+	<script src="serve.js" type="text/javascript" charset="utf-8" ></script>
+	<script src="myTurn.js" type="text/javascript" charset="utf-8" ></script>
+	<link rel="stylesheet" type="text/css" href="index.css">
+	<meta charset="UTF-8">
+	<title>CS4295 Project Ludo</title>
+</head>
+
+<body>
+
+	<div id="board">
+		<div id="boxes"></div>
+		<div id="planes"></div>
+	</div>
+	<div id="overlay">
+		<div id="dice-container"><div id="dice"></div></div>
+		<div id="overlay-msg"></div>
+	</div>
+
+	<script src="board.js"></script>
+	<script>
+		var SERVER_ADDRESS = "http://ludo4295.herokuapp.com/";
+		//var SERVER_ADDRESS = "http://localhost:8080/";
+		var yourTurnImg = {
+			yourTurn:"YourTurn-01.png",
+			oneMoreChance:"YourTurn-02.png",
+			onFire:"YourTurn-03.png",
+			tripleSix:"YourTurn-04.png",
+			letsMove:"YourTurn-05.png",
+			noMoves:"YourTurn-06.png"
+		}
+
+
+		function startGame(){
+			console.log("HI");
+			myTurn.getName();
+			myTurn.getSide();
+			myTurn.setup();
+			
+			setTimeout(function(){myTurn.update()},1000);
+		}
+		function showOverlay(msg){
+			console.log("showOverlay");
+			var $overlay = $("#overlay");
+			switch(msg){
+			case "yourTurn":
+				$("#overlay-msg").css({backgroundImage:"url(img/"+yourTurnImg.yourTurn+")"});
+				$("#dice")
+					.css({backgroundImage:"url(img/dice"+0+".png)"});
+				$overlay.on('click',function(){myTurn.runNextStep(1)});
+				break;
+
+			case "oneMoreChance":
+				$("#overlay-msg").css({backgroundImage:"url(img/"+yourTurnImg.oneMoreChance+")"});
+				$("#dice")
+					.css({backgroundImage:"url(img/dice"+0+".png)"});
+				$overlay.on('click',function(){
+					myTurn.runNextStep(1)});
+				break;
+
+			case "onFire":
+				$("#overlay-msg").css({backgroundImage:"url(img/"+yourTurnImg.onFire+")"});
+				$("#dice")
+					.css({backgroundImage:"url(img/dice"+0+".png)"});
+				$overlay.on('click',function(){myTurn.runNextStep(1)});
+				break;
+			case "tripleSix":
+				$("#overlay-msg").css({backgroundImage:"url(img/"+yourTurnImg.tripleSix+")"});
+				$("#dice")
+					.css({backgroundImage:"url(img/dice"+0+".png)"});
+				$overlay.on('click',function(){
+					myTurn.step=5;
+					myTurn.runNextStep(5);
+					hideOverlay();
+				});
+				break;
+			case "letsMove":
+				$("#overlay-msg").css({backgroundImage:"url(img/"+yourTurnImg.letsMove+")"});
+				$("#dice")
+					.css({backgroundImage:"url(img/dice"+game.flags.dice+".png)"});
+				setTimeout(function(){myTurn.runNextStep(3)},2000);
+				break;
+			case "noMoves":
+				$("#overlay-msg").css({backgroundImage:"url(img/"+yourTurnImg.noMoves+")"});
+				$("#dice")
+					.css({backgroundImage:"url(img/dice"+game.flags.dice+".png)"});
+				$overlay.on('click',function(){
+					myTurn.step=5;
+					myTurn.runNextStep(5);
+					hideOverlay();
+				});
+				
+				break;
+			}
+			$overlay.show();
+		}
+		function hideOverlay(){
+			$("#overlay").hide().off("click");
+		}
+
+		function planeSelected(i){
+			console.log(game.flags.movingFlag);
+			console.log(i+" selected plane"+myTurn.color+i);
+
+			if(game.flags.movingFlag[i] == "move"){
+				serve.move(myTurn.name,game.flags.turnID,i);
+			}
+			if(game.flags.movingFlag[i] == "start"){
+				serve.start(myTurn.name,game.flags.turnID,i);
+			}
+			game.flags.movingFlag=["NA","NA","NA","NA"];
+		}
+		function animateStart(p){
+			console.log(board.start[myTurn.color].x);
+			$("#"+p)
+			.animate({
+				left:scaled(board.start[myTurn.color].x),
+				top:scaled(board.start[myTurn.color].y)
+				},
+				1000,
+				function(){
+					myTurn.runNextStep(5);
+				});
+		}
+		function animatePlane(p){
+			if(game.hops.length>0){
+			var newPlace = game.hops[0];
+			$("#"+p)
+			.animate({
+					left:scaled(board.ring[newPlace].x),
+					top:scaled(board.ring[newPlace].y)
+				},
+				1000,
+				function(){
+					game.hops.splice(0, 1);
+					if(game.hops.length>0){
+						animatePlane(p);
+					}else if(game.flags.haveFinals){
+						animateFinal(p);
+					}else if(game.eat!==undefined){
+						p = game.eat[0];
+						animateKill(p);
+					}else{
+						if(game.flags.countSix>0){
+							myTurn.step=0;
+							myTurn.runNextStep(0);
+						}else{
+							myTurn.runNextStep(5);
+						}
+						
+					}
+				});
+			}else{
+				if(game.flags.haveFinals){
+					animateFinal(p);
+				}
+			}
+		}
+		function animateFinal(p){
+			var newPlace = game.finals[0];
+			$("#"+p)
+			.animate({
+					left:scaled(board.final[myTurn.color][newPlace].x),
+					top:scaled(board.final[myTurn.color][newPlace].y)
+				},
+				1000,
+				function(){
+					game.finals.splice(0, 1);
+					if(game.finals.length>0){
+						animateFinal(p);
+					}else{
+						if(game.flags.countSix>0){
+							myTurn.step=0;
+							myTurn.runNextStep(0);
+						}else{
+							myTurn.runNextStep(5);
+						}
+					}
+				});
+		}
+		function animateKill(p){
+			$("#"+p)
+			.animate({
+					left:scaled(board.home[p.charAt(0)][p.charAt(1)].x),
+					top:scaled(board.home[p.charAt(0)][p.charAt(1)].y)
+				},
+				1000,
+				function(){
+					game.finals.splice(0, 1);
+					if(game.finals.length>0){
+						animateFinal(p);
+					}else{
+						myTurn.runNextStep(5);
+					}
+				});
+		}
+
+		function putAllPieces(msg){
+			var planes = msg.state.planes;
+			var plane;	// recycled
+			var zone;	// recycled
+			var pos; 	// recycled
+			for(var j=0; j < planes.length; j++){
+				for(var i=0; i < 4; i++){
+					plane=planes[j][i];
+					zone = plane.zone;
+					if(zone=="ring"){
+						pos = board.ring[plane.place];
+					}else if(zone=="final"){
+						pos = board.final[board.indexToColor[j]][plane.place];
+					}else if(zone=="home"){
+						pos = board.home[board.indexToColor[j]][i];
+					}else if(zone=="started"){
+						pos = board.start[board.indexToColor[j]];
+					}else if(zone=="goal"){
+						pos = board.home[board.indexToColor[j]][i];
+					}
+					$("#"+board.indexToColor[j]+i)
+						.css({
+							left:scaled(pos.x),
+							top:scaled(pos.y)
+						});
+				}
+			}
+		}
+
+		function resizeMap(){
+			var w = $(window).width();
+			var h = $(window).height();
+			$("#board").width(w).height(w);
+			$("#overlay").width(w).height(h);
+			$(".ring")
+				.width(scaled(36))
+				.height(scaled(36))
+				.each(function(index, Element){
+					$(this).offset({
+						left:scaled(board.ring[this.dataset.index].x),
+						top:scaled(board.ring[this.dataset.index].y)
+					});
+				});
+			$(".final")
+				.width(scaled(36))
+				.height(scaled(36))
+				.each(function(index, Element){
+					$(this).offset({
+						left:scaled(board.final[this.dataset.color][this.dataset.index].x),
+						top:scaled(board.final[this.dataset.color][this.dataset.index].y)
+					});
+				});
+		}
+		$(window).resize(resizeMap);
+		// call it once first
+		resizeMap();
+	</script>
+	<script>
+	</script>
+	
+	
+</body>
+</html>

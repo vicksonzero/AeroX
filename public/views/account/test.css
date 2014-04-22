@@ -1,0 +1,56 @@
+/* css */ 
+body {
+  margin: 0;
+}
+
+#bgImage{
+  position: absolute;
+  height: 100%;
+  width: 100%;
+}
+
+#bgImage img{
+  position: inherit;
+  height: 100%;
+  width: 100%;
+  z-index: -1;
+}
+
+#WelcomePage #Menu{
+  position: absolute;
+  width:90%;
+  height: 75%;
+  left: 5%;
+  top:15%;
+  background-color: black;
+  background:rgba(255,255,255,0.5);
+}
+
+#icon{
+  position: absolute;
+  width:80%;
+  height: 25%;
+  left:10%;
+  top:1%;
+  z-index:1;
+}
+
+#icon img{
+  position: inherit;
+  width: 100%;
+  height: 100%;
+}
+
+#btn-container {
+  width: 300px;
+  margin: 25% auto;  
+}
+
+#btn-container h1 {
+  text-align: center;
+}
+
+.social-icon {
+  width: 50px;
+}
+
