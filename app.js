@@ -14,7 +14,6 @@ var config = require('./config'),
 //create express app
 var app = express();
 
-
 //keep reference to config
 app.config = config;
 
