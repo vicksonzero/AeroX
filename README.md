@@ -11,4 +11,4 @@ It is a summer project of **Dickson Chui (vicksonzero)**, **Isaac Sun (skmisaac)
 1. A server that encapulates all game mechanics.
 1. A client side (4 for each game)
 
-more: https://github.com/vicksonzero/AeroX/wiki/Todo
+more: https://github.com/vicksonzero/AeroX/wiki/Requirements
