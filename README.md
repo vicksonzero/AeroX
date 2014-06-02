@@ -3,7 +3,7 @@ Aeroplane chess mobile game with 4 players online
 
 
 ##What is this?
-It is a summer project of `Dickson Chui (vicksonzero)`, `Isaac Sun (skmisaac)` and `name here` who want to practice HTML5 and nodeJS.
+It is a summer project of **Dickson Chui (vicksonzero)**, **Isaac Sun (skmisaac)** and **name here** who want to practice `HTML5` and `nodeJS`.
 
 
 ##What will I see next month?
