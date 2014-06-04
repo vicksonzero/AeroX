@@ -8,8 +8,8 @@ var config = require('./config'),
     path = require('path'),
     passport = require('passport'),
     mongoose = require('mongoose'),
-    helmet = require('helmet');
-
+    helmet = require('helmet'),
+    ludo = require('./game/ludo');
 
 //create express app
 var app = express();
@@ -18,13 +18,15 @@ var app = express();
 app.config = config;
 
 //setup the web server
-app.server = http.createServer(app);
+app.server = http.createServer(app, function(req, res){
+  console.log('Debug: Server has been successfully created');
+});
 
 //setup mongoose
 app.db = mongoose.createConnection(config.mongodb.uri);
 app.db.on('error', console.error.bind(console, 'mongoose connection error: '));
 app.db.once('open', function () {
-  //and... we have a data store
+  console.log("Debug: Mongoose has been connected");
 });
 
 //config data models
@@ -34,7 +36,8 @@ require('./models')(app, mongoose);
 app.sessionStore = new mongoStore({ url: config.mongodb.uri });
 
 //config express in all environments
-app.configure(function(){
+app.configure(function()
+{
   //settings
   app.disable('x-powered-by');
   app.set('port', config.port);
@@ -96,7 +99,7 @@ app.configure(function(){
   });
 
   //mount the routes
-  app.use(app.router);
+  // app.use(app.router);
 
   //error handler
   app.use(require('./views/http/index').http500);
@@ -118,7 +121,6 @@ app.configure('development', function(){
 //setup passport
 require('./passport')(app, passport);
 
-var ludo = require('./game/app');
 app.use(ludo);
 
 //route requests
