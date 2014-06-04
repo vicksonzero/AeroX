@@ -6,12 +6,10 @@ var config = require('../config');
 // var cookieParser = require('cookie-parser');
 // var bodyParser = require('body-parser');
 
-// var routes = require('./routes/index');
-// var users = require('./routes/users');
-
 var mongoose = require('mongoose');
 var db = require('./ludo/database')(mongoose, config);
-var ludo = require('./ludo/ludoInterface');
+var rooms = require('./ludo/rooms');
+var ludo = require('./ludo/ludoInterface')(db,rooms);
 
 var app = express();
 /*
@@ -25,22 +23,36 @@ var app = express();
  * function CHECK(clientID,turnID);
  */
 
+/*
+ * Middleware configuration
+ */
 app.use(express.bodyParser());
-// app.post('/skmisaac', function(req, res, next){
-//   console.log('req.param: %s', req.param('p'));
-//   res.send(200, 'see console');
-// });
 app.config = config;
 
-var rooms = require('./ludo/rooms');
-var ludo = require('./ludo/ludoInterface')(db,rooms);
+/*
+ * Request Handlers
+ */
+app.post('/register',function(req,res) {
+	// res.setHeader('Content-Type', 'application/json');
+	// if( req.param('secret') != "Dickson is amazing!"){
+	// 	res.json({msg:"cheat not allowed"});
+	// }
+	var cid = req.param('cid'),
+			rid = req.param('rid');
 
+	db.add(cid, rid);
+	return_msg = "account added with cid: " + cid + ", " + "rid: " + rid;
 
-app.all('*', function(req, res, next) {
-	res.header("Access-Control-Allow-Origin", "*");
-	res.header("Access-Control-Allow-Headers", "X-Requested-With");
-	next();
+	res.json({
+		msg: return_msg
+	});
 });
+
+// app.all('*', function(req, res, next) {
+// 	res.header("Access-Control-Allow-Origin", "*");
+// 	res.header("Access-Control-Allow-Headers", "X-Requested-With");
+// 	next();
+// });
 
 app.post('/clear',function(req,res){
 	res.setHeader('Content-Type', 'application/json');
@@ -116,40 +128,6 @@ app.post('/join_room',function(req,res){
 	}
 	res.send(200);
 });
-
-
-app.post('/register',function(req,res){
-	// res.setHeader('Content-Type', 'application/json');
-	// if( req.param('secret') != "Dickson is amazing!"){
-	// 	res.json({msg:"cheat not allowed"});
-	// }
-
-	db.add(req.param('cid'), req.param('rid'));
-
-	res.json({
-		msg: "account added"
-	});
-
-});
-
-// app.post('/testInterface',function(req,res){
-// 	res.end(ludo.JOIN_ROOM.toString());
-
-// });
-
-// app.post('/testPassVar',function(req,res){
-// 	res.setHeader('Content-Type', 'application/json');
-// 	var n = req.param("name");
-// 	res.json({name:n});
-
-// });
-
-// app.post('/testDB',function(req,res){
-// 	res.setHeader('Content-Type', 'application/json');
-// 	db.add(10,100);
-// 	res.end(JSON.stringify(db,null,4));
-
-// });
 
 
 // catch 404 and forwarding to error handler

@@ -10,9 +10,15 @@ module.exports = function(db,rooms){
 	ludo.CLEAR = CLEAR;
 
 	return ludo;
+
 	function JOIN_ROOM(clientID,side) {
 		console.log('hi join room pls cid: %s, side: %s', clientID, side);
 		// clientID = clientID.toString();
+
+		/*
+		 * Logic
+		 */
+		// var side = {1, 2, 3, 4}; side.remove('selected_side'); randomNum = Math.random(); new_comer = side[randomNum];
 
 		// console.log("join says: "+JSON.stringify(gameState.players));
 		var roomID = db.get(clientID);
@@ -36,11 +42,12 @@ module.exports = function(db,rooms){
 	 */
 	function ROLL(clientID,turnID,forceDice) {
 		var result = {};
-		var d=getDice();
+		var d = getDice();
 		if(ludo.devMode == "Dickson is dice king!")
 			if(forceDice>=1 && forceDice <=6)
 				d = forceDice;
 		result.dice = d;
+
 
 		var roomID = db.get(clientID);
 		var game = rooms.get(roomID);

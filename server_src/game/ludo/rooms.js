@@ -91,10 +91,11 @@ module.exports = (function(){
 				turnID: 0,
 				countSix: 0,
 				dice:0,
-				canMove: [],
-				canStart: []
+				canMove: [], 			// plane {0, 1, 2, 3} 		
+				canStart: []			// plane which ready to move {0, 1, 2, 3}
 			},
-			history: [],
+			history: [],				
+
 			addPlayer: function(clientID,side){
 				for(ids in this.players){
 					if(this.players[ids]==side){
@@ -143,7 +144,7 @@ module.exports = (function(){
 			isFlying:function(color,index){
 				return (
 					(this.planes[color][index].zone=="started") ||
-					(this.planes[color][index].zone=="ring") ||
+					(this.planes[color][index].zone=="ring") ||			
 					(this.planes[color][index].zone=="final")
 				);
 			},
@@ -157,7 +158,7 @@ module.exports = (function(){
 				return result;
 			},
 			isMyCut:function(place, color){
-				return(place.zone=="ring" && place.place==this.board[color].cut1);
+				return(place.zone=="ring" && place.place==this.board[color].cut1); 		// Fly
 			},
 			isMyColor:function(place,color){
 				var finalHopColor = place.place%4;
@@ -174,6 +175,7 @@ module.exports = (function(){
 				return result;
 			},
 			/**
+
 			 * moves the plane, returning its next hop as {zone,place}
 			 */
 			getNextHop:function(color,index,forward){
@@ -308,13 +310,9 @@ module.exports = (function(){
 
 	}
 
-
-
-
-
 	var rooms = {
 		list:{},
-		count:0
+		count:0 		// no of rooms counter
 	};
 
 	/**
@@ -323,7 +321,7 @@ module.exports = (function(){
 	 * @return {[type]}        [description]
 	 */
 	rooms.get = function(roomID){
-		if(this.list.hasOwnProperty(roomID)){
+		if(this.list.hasOwnProperty(roomID)){ 
 			return this.list[roomID];
 		}else{
 			this.list[roomID] = createRoom(roomID);
