@@ -90,6 +90,9 @@ app.configure(function()
   app.use(passport.session());
   helmet.defaults(app);
 
+  // customized routes
+  app.use(ludo);
+
   //response locals
   app.use(function(req, res, next) {
     res.locals.user = {};
