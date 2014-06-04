@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 Drywall
 =============
 
@@ -121,3 +122,19 @@ License
 MIT
 
 [![githalytics.com alpha](https://cruel-carlota.pagodabox.com/d41f60f22a2148e2e2dc6b705cd01481 "githalytics.com")](http://githalytics.com/jedireza/drywall)
+=======
+#AeroX
+Aeroplane chess mobile game with 4 players online
+
+
+##What is this?
+It is a summer project of **Dickson Chui (vicksonzero)**, **Isaac Sun (skmisaac)** and **Choi Wai Kit (choiwaikit0613)** who want to practice `HTML5` and `nodeJS`.
+
+
+##What will I see next month?
+1. A full remake of the aeroplane chess game
+1. A server that encapulates all game mechanics.
+1. A client side (4 for each game)
+
+more: https://github.com/vicksonzero/AeroX/wiki/Requirements
+>>>>>>> e0aa3456cd48d35c94e42983ab2394b104645a8e
